@@ -6,6 +6,8 @@ namespace Aperion.RubeyHands
 {
     public class ReplayObject : MonoBehaviour
     {
+        [SerializeField] List<GameObject> gameObjectsToTrack;
+
         private List<ReplayFrame> frames = new List<ReplayFrame>();
 
         private bool isRecording;
@@ -48,14 +50,20 @@ namespace Aperion.RubeyHands
 
             if (playbackStarted)
             {
-                //currentFrame += Mathf.RoundToInt(Time.deltaTime);
+                if (currentFrame > frames.Count)
+                    return;
+
+                currentFrame += 1;
 
                 ReplayFrame f = frames[currentFrame];
                 //transform.position = Vector3.Lerp(transform.position, f.position, Time.deltaTime * 3F);
                 //transform.rotation = Quaternion.Slerp(transform.rotation, f.rotation, Time.deltaTime * 3F);
 
-                transform.position = f.position;
-                transform.rotation = f.rotation;
+                for (int i = 0; i < f.gameObjectFrames.Count; i++)
+                {
+                    f.gameObjectFrames[i].gameObject.transform.position = f.gameObjectFrames[i].position;
+                    f.gameObjectFrames[i].gameObject.transform.rotation = f.gameObjectFrames[i].rotation;
+                }
             }
         }
 
@@ -66,7 +74,7 @@ namespace Aperion.RubeyHands
             //    frames.RemoveAt(frames.Count - 1);
             //}
 
-            frames.Insert(frames.Count, new ReplayFrame(transform.position, transform.rotation));
+            frames.Insert(frames.Count, new ReplayFrame(gameObjectsToTrack));
         }
 
         private void StartRecording()

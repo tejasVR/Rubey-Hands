@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XREngine.Common;
 
 namespace XREngine.VR.HandTracking
 {
@@ -9,6 +10,7 @@ namespace XREngine.VR.HandTracking
     {
         [SerializeField] Transform grabPoint;
 
+        private Interactable interactable;
         private HandsGrabbable objectToGrab;
 
         private void OnEnable()
@@ -25,20 +27,30 @@ namespace XREngine.VR.HandTracking
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.GetComponent<HandsGrabbable>())
+            if (other.GetComponent<Interactable>())
             {
-                var grabbable = other.GetComponent<HandsGrabbable>();
+                var interacted = other.GetComponent<Interactable>();
 
-                if (grabbable == objectToGrab)
+                if (interacted.GetComponent<HandsGrabbable>())
                 {
-                    objectToGrab = null;
-                    grabbable.Unselect();
+                    SetObjectGrabbableObject(interacted.GetComponent<HandsGrabbable>());
                 }
-                else
-                {
-                    SetObjectGrabbableObject(grabbable);
-                    grabbable.Select();
-                }               
+
+                interacted.Select();
+
+                //if (interacted == interactable)
+                //{
+                //    objectToGrab = null;
+                //    interacted.Unselect();
+                //}
+                //else
+                //{
+                //    if (interacted.GetComponent<HandsGrabbable>())
+                //    {
+                //        SetObjectGrabbableObject(interacted.GetComponent<HandsGrabbable>());
+                //    }
+                //    interacted.Select();
+                //}               
             }
         }
 

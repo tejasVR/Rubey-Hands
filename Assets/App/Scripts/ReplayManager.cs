@@ -19,8 +19,22 @@ namespace Aperion.RubeyHands
 
         #endregion
 
+        public static ReplayManager Instance;
+
         private bool isRecording;
-        private bool playbackStarted;
+        //private bool playbackStarted;
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
 
         void Update()
         {
@@ -45,17 +59,35 @@ namespace Aperion.RubeyHands
                     OnStopRecording();
                 }
 
-                if (!playbackStarted)
-                {
-                    playbackStarted = true;
-                    OnStartPlayback();
-                }
-                else
-                {
-                    playbackStarted = false;
-                    OnStopRecording();
-                }
+                OnStartPlayback();
+
+
+                //if (!playbackStarted)
+                //{
+                //    playbackStarted = true;
+                //    OnStartPlayback();
+                //}
+                //else
+                //{
+                //    playbackStarted = false;
+                //    OnStopPlayback();
+                //}
             }
+        }
+
+        public void StartRecording()
+        {
+            OnStartRecording();
+        }
+
+        public void StopRecording()
+        {
+            OnStopRecording();
+        }
+
+        public void StartPlayback()
+        {
+            OnStartPlayback();
         }
     }
 }

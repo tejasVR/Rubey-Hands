@@ -30,16 +30,32 @@ namespace Aperion.RubeyHands
             }
         }
 
-        public void Select()
+        public override void Select()
         {
-            selected = true;
+            if (selected)
+            {                
+                Unhighlight();
+                selected = false;
+            }
+            else
+            {
+                Highlight();
+                selected = true;
+            }
+
+            //selected = true;
+            //highlight.enabled = true;
+            //highlight.outlineColor = selectedColor;
+        }
+
+        private void Highlight()
+        {
             highlight.enabled = true;
             highlight.outlineColor = selectedColor;
         }
 
-        public void Unselect()
-        {
-            selected = false;
+        private void Unhighlight()
+        {           
             highlight.enabled = false;
         }
 
@@ -61,9 +77,7 @@ namespace Aperion.RubeyHands
             highlight.enabled = false;
 
             isGrabbed = false;
-            Unselect();
+            Unhighlight();
         }
-
-
     }
 }
