@@ -10,8 +10,14 @@ namespace Aperion.RubeyHands
 
         [SerializeField] Collider fingerCollider;
 
-        [SerializeField] OVRHand ovrHand;
-        [SerializeField] OVRCustomSkeleton ovrCustomSkeleton;
+        private OVRHand ovrHand;
+        private OVRCustomSkeleton ovrCustomSkeleton;
+
+        private void Awake()
+        {
+            ovrHand = GetComponent<OVRHand>();
+            ovrCustomSkeleton = GetComponent<OVRCustomSkeleton>();
+        }
 
         private void Start()
         {

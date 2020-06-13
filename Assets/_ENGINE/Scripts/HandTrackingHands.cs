@@ -13,6 +13,15 @@ namespace XREngine.VR.HandTracking
         private Interactable interactable;
         private HandsGrabbable objectToGrab;
 
+        private OVRHand ovrHand;
+        private SkinnedMeshRenderer handMesh;
+
+        private void Awake()
+        {
+            ovrHand = GetComponent<OVRHand>();
+            handMesh = GetComponentInChildren<SkinnedMeshRenderer>();
+        }
+
         private void OnEnable()
         {
             GestureRecognition.OnRightHandIndexPinching += GrabObject;
@@ -51,6 +60,25 @@ namespace XREngine.VR.HandTracking
                 //    }
                 //    interacted.Select();
                 //}               
+            }
+        }
+
+        private void Update()
+        {
+            // Hide the Hands mesh depending on the tracking confidence level
+            if (ovrHand.HandConfidence < OVRHand.TrackingConfidence.Low)
+            {
+                if (handMesh.enabled)
+                {
+                    handMesh.enabled = false;
+                }
+            }
+            else
+            {
+                if (!handMesh.enabled)
+                {
+                    handMesh.enabled = true;
+                }
             }
         }
 

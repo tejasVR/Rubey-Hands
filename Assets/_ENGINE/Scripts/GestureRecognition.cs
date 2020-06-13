@@ -15,9 +15,12 @@ namespace XREngine.VR.HandTracking
 
         #endregion
 
-        public OVRHand leftHand;
-        public OVRHand rightHand;
 
+        [Header("Hands")]
+        [SerializeField] OVRHand leftHand;
+        [SerializeField] OVRHand rightHand;
+
+        [Header("UI Elements")]
         [SerializeField] TextMeshProUGUI handRecognitionText;
         [SerializeField] TextMeshProUGUI leftHandDotProduct;
 
